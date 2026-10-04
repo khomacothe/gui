@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi người quan trọng nhất!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe5ec, #ffb3c6);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #d90429;
+            position: relative;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.88);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(217, 4, 41, 0.15);
+            text-align: center;
+            max-width: 550px;
+            width: 85%;
+            backdrop-filter: blur(12px);
+            z-index: 10;
+            border: 2px solid #ff85a2;
+            position: relative;
+        }
+
+        /* Hiệu ứng trái tim đập lung linh */
+        .heart-icon {
+            font-size: 65px;
+            animation: beat 0.8s infinite alternate;
+            margin-bottom: 15px;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px #ff4d6d);
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); filter: drop-shadow(0 0 8px #ff4d6d); }
+            100% { transform: scale(1.25); filter: drop-shadow(0 0 18px #ff4d6d); }
+        }
+
+        /* Đoạn văn chữ tự gõ */
+        #typed-text {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.6;
+            min-height: 180px;
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+
+        /* Hiệu ứng kim tuyến rơi lung linh */
+        .sparkle {
+            position: absolute;
+            background: radial-gradient(circle, #fff 20%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite, twinkle 0.5s infinite alternate;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="heart-icon">💖</div>
+        <div id="typed-text"></div>
+    </div>
+
+    <script>
+        // Lời chúc ngọt ngào của bạn đã được chèn vào đây
+        const text = "Chúc cậu một ngày 20/10 thật hạnh phúc và ý nghĩa nhé. Tớ luôn cảm thấy may mắn vì được quen biết cậu, một cô gái lúc nào cũng mang lại năng lượng tích cực và sự ấm áp cho mọi người xung quanh.\n\nMong rằng tuổi mới, chặng đường mới của cậu sẽ luôn tràn ngập những điều tốt đẹp, làm gì cũng suôn sẻ và luôn giữ được nét hồn nhiên, tự tin như hiện tại. Nhân ngày đặc biệt này, cậu cho tớ gửi lời chúc mừng 20/10 ngắn gọn đến bác gái nữa nha, chúc mẹ của cậu luôn mạnh khỏe và bình an.\n\nCòn với cậu, hôm nay hãy gác lại mọi lo nghĩ, nuông chiều bản thân một chút và có một ngày thật tuyệt vời nhé. Tớ luôn ở đây để chia sẻ mọi niềm vui cùng cậu và cậu mãi là người quan trọng nhất với tớ. 💕";
+        
+        let index = 0;
+        const speed = 55; // Tốc độ gõ chữ vừa phải để đọc (ms)
+        const container = document.getElementById("typed-text");
+
+        function typeWriter() {
+            if (index < text.length) {
+                container.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        // Tạo hiệu ứng kim tuyến lấp lánh rơi ngẫu nhiên
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            
+            // Kích thước ngẫu nhiên cho hạt kim tuyến
+            const size = Math.random() * 6 + 4;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            
+            // Vị trí nằm ngang ngẫu nhiên khắp màn hình
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            
+            // Màu sắc kim tuyến lung linh (Vàng lấp lánh, Trắng hồng, Hồng nhạt)
+            const colors = ['#ffffff', '#fff3b0', '#ffccd5', '#fff0f3', '#ffb3c6'];
+            sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Tốc độ rơi ngẫu nhiên từ 3s đến 6s
+            sparkle.style.animationDuration = Math.random() * 3 + 3 + 's';
+            
+            // Tạo hiệu ứng lấp lánh vệt sáng
+            if(Math.random() > 0.5) {
+                sparkle.style.boxShadow = '0 0 ' + (size * 2) + 'px ' + sparkle.style.backgroundColor;
+            }
+
+            document.body.appendChild(sparkle);
+
+            // Xóa hạt kim tuyến sau khi rơi xong để web mượt
+            setTimeout(() => {
+                sparkle.remove();
+            }, 6000);
+        }
+
+        // Chạy hiệu ứng khi trang web sẵn sàng
+        window.onload = () => {
+            typeWriter();
+            // Tạo kim tuyến liên tục mỗi 100ms cho lung linh
+            setInterval(createSparkle, 100);
+        };
+    </script>
+</body>
+</html>
